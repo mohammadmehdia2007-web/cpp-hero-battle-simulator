@@ -46,3 +46,33 @@ void tahas::use_ability_2(vector<hero*>& my_team, vector<hero*>& enemy_team, int
         hot_target->apply_hot(40, 2);
     }
 }
+
+void tahas::use_ultimate(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) 
+{
+    if (hot_target != nullptr)
+    { 
+        hot_target->process_hot();
+    }
+
+    cout << "!!! ultimate !!! " << ult_phrase << endl;
+    
+    hero* low_hp_hero = nullptr;
+    for (auto h : my_team) 
+    {
+        if (!h->is_dead()) 
+        {
+            if (low_hp_hero == nullptr || h->get_hp() < low_hp_hero->get_hp()) 
+            {
+                low_hp_hero = h;
+            }
+        }
+    }
+
+    if (low_hp_hero != nullptr) 
+    {
+        low_hp_hero->heal(200);
+        cout << name << " used gharantine! healed " << low_hp_hero->get_name() << " for 200 hp." << endl;
+    }
+
+    reset_ultimate();
+}
