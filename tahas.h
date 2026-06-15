@@ -12,6 +12,8 @@ class tahas : public hero
     public:
 
         tahas() : hero("taha koochike", "healer", 500, 3, "hame dar jaye khod in mantaghe aloode ast !") , hot_target(nullptr) { }
+
+        void use_ability_1(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) override;
 };
 
 #endif
