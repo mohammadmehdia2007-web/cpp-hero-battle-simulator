@@ -31,3 +31,18 @@ void tahas::use_ability_1(vector<hero*>& my_team, vector<hero*>& enemy_team, int
         enemy_team[target_idx]->reduce_hp(30);
     }
 }
+
+void tahas::use_ability_2(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx)
+{
+    if (hot_target != nullptr)
+    {
+        hot_target->process_hot();
+    }
+
+    if (target_idx < my_team.size() && !my_team[target_idx]->is_dead())
+    {
+        cout << name << " used serome khoon on " << hot_target->get_name() << "!!! Continuous healing activated " << endl;
+        hot_target = my_team[target_idx];
+        hot_target->apply_hot(40, 2);
+    }
+}
