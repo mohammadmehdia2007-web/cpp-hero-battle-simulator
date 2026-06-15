@@ -15,6 +15,8 @@ class tahas : public hero
 
         void use_ability_1(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) override;
 
+         void use_ability_2(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) override;
+
 };
 
 #endif
