@@ -97,6 +97,25 @@ void delete_heap(vector<hero*>& team)
     }
 }
 
+void show_teams(const vector<hero*>& team_1, const vector<hero*>& team_2) 
+{
+    cout << "\n======= team 1 =======" << endl;
+
+    for (const auto h : team_1) 
+    {
+        h->display_status();
+    }
+
+    cout << "======= team 2 =======" << endl;
+
+    for (const auto h : team_2) 
+    {
+        h->display_status();
+    }
+
+    cout << "======================\n" << endl;
+}
+
 int main()
 {
     srand(time(0));
@@ -216,6 +235,8 @@ int main()
         {
             break;
         }
+
+        show_teams(team_1 ,team_2);
 
         round++;
     }
