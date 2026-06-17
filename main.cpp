@@ -37,7 +37,7 @@ hero* create_hero(int choice)
     {
         return new tahas();
     }
-    else if (choice =-5)
+    else if (choice ==5)
     {
         return new tahab();
     }
@@ -182,7 +182,7 @@ int main()
         team_2.push_back(create_hero(choice));
     }
 
-    int round = 0;
+    int round = 1;
     int energy_sequence_1[] ={5, 10}; 
     int energy_sequence_2[] ={8, 9,10}; 
 
@@ -199,7 +199,9 @@ int main()
             h->update_cooldown();
         }
 
-        if (is_game_over(team_1, team_2) || round >= 15) 
+        execute_player_turn(team_1, team_2, energy_1);
+
+        if (is_game_over(team_1, team_2) || round > 15) 
         {
             break;
         }
@@ -224,14 +226,14 @@ int main()
 
         cout << "\n--- team 2 turn ---" << endl;
 
-        execute_player_turn(team_2, team_1, energy_2);
-
         for (auto& h : team_2) 
         {
             h->update_cooldown();
         }
 
-        if (is_game_over(team_1, team_2) || round >= 15) 
+         execute_player_turn(team_2, team_1, energy_2);
+
+        if (is_game_over(team_1, team_2) || round > 15) 
         {
             break;
         }
