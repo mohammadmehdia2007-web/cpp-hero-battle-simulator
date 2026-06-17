@@ -163,11 +163,43 @@ int main()
     {
         cout << "\n>!>!>!>!>!>!>!> round " << round << " <!<!<!<!<!<!<!<" << endl; 
         
-        int energy_1 = (round == 1) ? energy_sequence_1[0] : energy_sequence_1[1]; 
+        int energy_1 = ((round % 2) == 0) ? energy_sequence_1[1] : energy_sequence_1[0]; 
 
         cout << "\n--- team 1 turn ---" << endl;
 
         for (auto& h : team_1) 
+        {
+            h->update_cooldown();
+        }
+
+        if (is_game_over(team_1, team_2) || round >= 15) 
+        {
+            break;
+        }
+
+        int energy_2 = 10;
+
+        if (round == 1)
+        { 
+            energy_2 = energy_sequence_2[0]; 
+        }
+        else 
+        {
+            if (round == 2) 
+            {
+                energy_2 = energy_sequence_2[1];
+            }
+            else
+            {
+                energy_2 = energy_sequence_2[2];
+            }
+        }
+
+        cout << "\n--- team 2 turn ---" << endl;
+
+        execute_player_turn(team_2, team_1, energy_2);
+
+        for (auto& h : team_2) 
         {
             h->update_cooldown();
         }
