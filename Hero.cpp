@@ -22,6 +22,7 @@ int hero::get_hp() const { return hp; }
 string hero::get_role() const { return role; }
 int hero::get_current_cooldown() const { return current_cooldown; }
 int hero::get_ult_cooldown() const { return ult_cooldown; }
+int hero::get_max_hp() const { return max_hp; }
 
 void hero::apply_hot(int amount, int turns)
 {

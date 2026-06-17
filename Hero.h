@@ -32,6 +32,7 @@ class hero
 
         string get_name() const;
         int get_hp() const;
+        int get_max_hp() const;
         string get_role() const;
         int get_current_cooldown() const;
         int get_ult_cooldown() const;

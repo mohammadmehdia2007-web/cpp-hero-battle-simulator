@@ -44,10 +44,89 @@ hero* create_hero(int choice)
     return nullptr;
 }
 
-void execute_player_turn(vector<hero*>& my_team, vector<hero*>& enmy_team, int energy)
+void execute_player_turn(vector<hero*>& my_team, vector<hero*>& enemy_team, int energy)
 {
     cout << "current energy: " << energy << endl;
+
+    cout << "Choose a hero to act:\n";
+    for (size_t i = 0; i < my_team.size(); ++i) 
+    {
+        if (!my_team[i]->is_dead()) 
+        {
+            cout << i + 1 << ". " << my_team[i]->get_name() << " (HP: " << my_team[i]->get_hp() << " / " << my_team[i]->get_max_hp() << ")\n";
+        }
+    }
+    
+    int hero_choice;
+
+    cout << "Enter hero number: ";
+
+    cin >> hero_choice;
+
+    hero_choice--;
+
+    if (hero_choice < 0 || hero_choice >= my_team.size() || my_team[hero_choice]->is_dead()) 
+    {
+        cout << "Invalid choice !! Turn skipped.\n";
+        return;
+    }
+    
+    hero* active_hero = my_team[hero_choice];
+
+    cout << "\nChoose action for " << active_hero->get_name() << ":\n"
+         << "1. Ability 1\n"
+         << "2. Ability 2\n"
+         << "3. Ultimate (Cooldown: " << active_hero->get_current_cooldown() << "/" << active_hero->get_ult_cooldown() << ")\n"
+         << "Enter action number: ";
+         
+    int action_choice;
+    cin >> action_choice;
+
+    cout << "\nChoose a target:\n";
+
+    for (size_t i = 0; i < enemy_team.size(); ++i) 
+    {
+        cout << i + 1 << ". " << enemy_team[i]->get_name();
+
+        if (enemy_team[i]->is_dead()) { cout << " [DEAD]"; }
+
+        cout << "\n";
+    }
+    
+    int target_idx;
+
+    cout << "Enter target number: ";
+
+    cin >> target_idx;
+    target_idx--;
+
+    cout << "\n<-------------------------------->\n";
+    if (action_choice == 1) 
+    {
+        active_hero->use_ability_1(my_team, enemy_team, target_idx);
+    } 
+    else if (action_choice == 2) 
+    {
+        active_hero->use_ability_2(my_team, enemy_team, target_idx);
+    } 
+    else if (action_choice == 3) 
+    {
+        if (active_hero->can_use_ultimate()) 
+        {
+            active_hero->use_ultimate(my_team, enemy_team, target_idx);
+        } 
+        else 
+        {
+            cout << "Ultimate is not ready yet !! Turn wasted.\n";
+        }
+    } 
+    else 
+    {
+        cout << "Invalid action! Turn wasted.\n";
+    }
+    cout << "<--------------------------------->\n";
 }
+
 
 bool is_game_over(const vector<hero*>& team_1, const vector<hero*>& team_2)
 {
