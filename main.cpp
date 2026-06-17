@@ -44,6 +44,51 @@ hero* create_hero(int choice)
     return nullptr;
 }
 
+void execute_player_turn(vector<hero*>& my_team, vector<hero*>& enmy_team, int energy)
+{
+    cout << "current energy: " << energy << endl;
+}
+
+bool is_game_over(const vector<hero*>& team_1, const vector<hero*>& team_2)
+{
+    bool team_1_dead = true;
+    for (const auto& h : team_1)
+    {
+        if (!h->is_dead())
+        {
+            team_1_dead = false;
+            break;
+        }
+    }
+
+    bool team_2_dead = true;
+    for (const auto& h : team_2)
+    {
+        if (!h->is_dead())
+        {
+            team_2_dead = false;
+            break;
+        }
+    }
+
+    if (team_1_dead && team_2_dead)
+    {
+        cout << "\n>!>!> DRAW <!<!<!\n" << endl;
+        return true;
+    }
+    if (team_1_dead)
+    {
+        cout << "\n>!>!> TEAM 2 WINS <!<!<!\n" << endl;
+        return true;
+    }
+    if (team_2_dead)
+    {
+        cout << "\n>!>!> TEAM 1 WINS <!<!<!\n" << endl;
+        return true;
+    }
+    return false;
+}
+
 int main()
 {
     srand(time(0));
@@ -116,6 +161,21 @@ int main()
 
     while(round < 15)
     {
+        cout << "\n>!>!>!>!>!>!>!> round " << round << " <!<!<!<!<!<!<!<" << endl; 
+        
+        int energy_1 = (round == 1) ? energy_sequence_1[0] : energy_sequence_1[1]; 
+
+        cout << "\n--- team 1 turn ---" << endl;
+
+        for (auto& h : team_1) 
+        {
+            h->update_cooldown();
+        }
+
+        if (is_game_over(team_1, team_2) || round >= 15) 
+        {
+            break;
+        }
 
         round++;
     }
