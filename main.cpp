@@ -89,6 +89,14 @@ bool is_game_over(const vector<hero*>& team_1, const vector<hero*>& team_2)
     return false;
 }
 
+void delete_heap(vector<hero*>& team)
+{
+    for(auto s : team)
+    {
+        delete s;
+    }
+}
+
 int main()
 {
     srand(time(0));
@@ -212,6 +220,8 @@ int main()
         round++;
     }
 
+    delete_heap(team_1);
+    delete_heap(team_2);
 
     return 0;
 }
