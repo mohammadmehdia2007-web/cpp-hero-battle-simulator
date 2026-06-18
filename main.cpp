@@ -46,85 +46,139 @@ hero* create_hero(int choice)
 
 void execute_player_turn(vector<hero*>& my_team, vector<hero*>& enemy_team, int energy)
 {
-    cout << "current energy: " << energy << endl;
+    int current_energy = energy;
+    bool end_turn = false;
 
-    cout << "Choose a hero to act:\n";
-    for (size_t i = 0; i < my_team.size(); ++i) 
+    while (current_energy > 0 && !end_turn)
     {
-        if (!my_team[i]->is_dead()) 
+        cout << "current energy: " << current_energy << endl;
+        cout << "do you want to end your turn? (1 for yes, 0 for no): ";
+        
+        int choice;
+        cin >> choice;
+
+        if (choice == 1)
         {
-            cout << i + 1 << ". " << my_team[i]->get_name() << " (HP: " << my_team[i]->get_hp() << " / " << my_team[i]->get_max_hp() << ")\n";
+            end_turn = true;
+            continue;
         }
-    }
-    
-    int hero_choice;
 
-    cout << "Enter hero number: ";
-
-    cin >> hero_choice;
-
-    hero_choice--;
-
-    if (hero_choice < 0 || hero_choice >= my_team.size() || my_team[hero_choice]->is_dead()) 
-    {
-        cout << "Invalid choice !! Turn skipped.\n";
-        return;
-    }
-    
-    hero* active_hero = my_team[hero_choice];
-
-    cout << "\nChoose action for " << active_hero->get_name() << ":\n"
-         << "1. Ability 1\n"
-         << "2. Ability 2\n"
-         << "3. Ultimate (Cooldown: " << active_hero->get_current_cooldown() << "/" << active_hero->get_ult_cooldown() << ")\n"
-         << "Enter action number: ";
-         
-    int action_choice;
-    cin >> action_choice;
-
-    cout << "\nChoose a target:\n";
-
-    for (size_t i = 0; i < enemy_team.size(); ++i) 
-    {
-        cout << i + 1 << ". " << enemy_team[i]->get_name();
-
-        if (enemy_team[i]->is_dead()) { cout << " [DEAD]"; }
-
-        cout << "\n";
-    }
-    
-    int target_idx;
-
-    cout << "Enter target number: ";
-
-    cin >> target_idx;
-    target_idx--;
-
-    cout << "\n<-------------------------------->\n";
-    if (action_choice == 1) 
-    {
-        active_hero->use_ability_1(my_team, enemy_team, target_idx);
-    } 
-    else if (action_choice == 2) 
-    {
-        active_hero->use_ability_2(my_team, enemy_team, target_idx);
-    } 
-    else if (action_choice == 3) 
-    {
-        if (active_hero->can_use_ultimate()) 
+        cout << "choose a hero to act:\n";
+        for (size_t i = 0; i < my_team.size(); ++i) 
         {
-            active_hero->use_ultimate(my_team, enemy_team, target_idx);
+            if (!my_team[i]->is_dead()) 
+            {
+                cout << i + 1 << ". " << my_team[i]->get_name() << " (hp: " << my_team[i]->get_hp() << " / " << my_team[i]->get_max_hp() << ")\n";
+            }
+        }
+        
+        int hero_choice;
+        cout << "enter hero number: ";
+        cin >> hero_choice;
+        hero_choice--;
+
+        if (hero_choice < 0 || hero_choice >= my_team.size() || my_team[hero_choice]->is_dead()) 
+        {
+            cout << "invalid choice !!\n";
+            continue;
+        }
+        
+        hero* active_hero = my_team[hero_choice];
+
+        cout << "\nchoose action for " << active_hero->get_name() << ":\n"
+             << "1. ability 1 (cost 2)\n"
+             << "2. ability 2 (cost 3)\n"
+             << "3. ultimate (cooldown: " << active_hero->get_current_cooldown() << "/" << active_hero->get_ult_cooldown() << ") (cost 5)\n"
+             << "enter action number: ";
+             
+        int action_choice;
+        cin >> action_choice;
+
+        int required_energy = 0;
+        
+        if (action_choice == 1)
+        {
+            required_energy = 2;
+        }
+        else if (action_choice == 2)
+        {
+            required_energy = 3;
+        }
+        else if (action_choice == 3)
+        {
+            required_energy = 5;
+        }
+        else
+        {
+            cout << "invalid action!\n";
+            continue;
+        }
+
+        if (current_energy < required_energy)
+        {
+            cout << "not enough energy !! required: " << required_energy << " available: " << current_energy << "\n";
+            continue;
+        }
+
+        cout << "\nchoose a target:\n";
+
+        for (size_t i = 0; i < enemy_team.size(); ++i) 
+        {
+            cout << i + 1 << ". " << enemy_team[i]->get_name();
+
+            if (enemy_team[i]->is_dead()) 
+            { 
+                cout << " [dead]"; 
+            }
+
+            cout << "\n";
+        }
+        
+        int target_idx;
+        cout << "enter target number: ";
+        cin >> target_idx;
+        target_idx--;
+
+        cout << "\n<-------------------------------->\n";
+        if (action_choice == 1) 
+        {
+            active_hero->use_ability_1(my_team, enemy_team, target_idx);
+            current_energy -= required_energy;
         } 
-        else 
+        else if (action_choice == 2) 
         {
-            cout << "Ultimate is not ready yet !! Turn wasted.\n";
+            active_hero->use_ability_2(my_team, enemy_team, target_idx);
+            current_energy -= required_energy;
+        } 
+        else if (action_choice == 3) 
+        {
+            if (active_hero->can_use_ultimate()) 
+            {
+                active_hero->use_ultimate(my_team, enemy_team, target_idx);
+                current_energy -= required_energy;
+            } 
+            else 
+            {
+                cout << "ultimate is not ready yet !!\n";
+            }
         }
-    } 
-    else 
-    {
-        cout << "Invalid action! Turn wasted.\n";
+        cout << "<--------------------------------->\n";
+
+        bool all_dead = true;
+        for (auto h : enemy_team)
+        {
+            if (!h->is_dead())
+            {
+                all_dead = false;
+                break;
+            }
+        }
+        
+        if (all_dead)
+        {
+            break;
+        }
     }
-    cout << "<--------------------------------->\n";
 }
 
 
