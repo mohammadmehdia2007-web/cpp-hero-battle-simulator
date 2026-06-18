@@ -27,6 +27,8 @@ class tahab : public hero
         void use_ultimate(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) override;
 
         void reduce_hp(int damage);
+
+        void decrease_hidden_turn();
 };
 
 #endif

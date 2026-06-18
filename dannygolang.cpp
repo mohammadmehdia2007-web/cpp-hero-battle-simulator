@@ -2,10 +2,6 @@
 
 void dannygolang::use_ability_1(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) 
 {
-    if (shielded_teammate != nullptr)
-    {
-        shielded_teammate->decrease_shield_turn();
-    }
 
     if (target_idx < enemy_team.size() && !enemy_team[target_idx]->is_dead()) 
     {
@@ -27,10 +23,6 @@ void dannygolang::use_ability_1(vector<hero*>& my_team, vector<hero*>& enemy_tea
 
 void dannygolang::use_ability_2(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) 
 {
-    if (shielded_teammate != nullptr)
-    {
-        shielded_teammate->decrease_shield_turn();
-    }
 
     if (target_idx < enemy_team.size() && !enemy_team[target_idx]->is_dead()) 
     {
@@ -62,10 +54,6 @@ void dannygolang::use_ability_2(vector<hero*>& my_team, vector<hero*>& enemy_tea
 
 void dannygolang::use_ultimate(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) 
 {
-    if (shielded_teammate != nullptr)
-    {
-        shielded_teammate->decrease_shield_turn();
-    }
 
     cout << "!!! ultimate !!! " << ult_phrase << endl;
     

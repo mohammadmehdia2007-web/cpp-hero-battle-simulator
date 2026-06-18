@@ -3,11 +3,6 @@
 
 void whitedoctor::use_ability_1(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) 
 {
-    if (buffed_teammate != nullptr)
-    {
-        buffed_teammate->decrease_buff_turn();
-    }
-
     int rand_idx = rand() % my_team.size();
     if (!my_team[rand_idx]->is_dead()) 
     {
@@ -24,10 +19,6 @@ void whitedoctor::use_ability_1(vector<hero*>& my_team, vector<hero*>& enemy_tea
 
 void whitedoctor::use_ability_2(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) 
 {
-    if (buffed_teammate != nullptr)
-    {
-        buffed_teammate->decrease_buff_turn();
-    }
 
     if (target_idx < my_team.size() && !my_team[target_idx]->is_dead())
     {
@@ -39,10 +30,6 @@ void whitedoctor::use_ability_2(vector<hero*>& my_team, vector<hero*>& enemy_tea
 
 void whitedoctor::use_ultimate(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) 
 {
-    if (buffed_teammate != nullptr)
-    {
-        buffed_teammate->decrease_buff_turn();
-    }
 
     cout << "!!! ultimate !!! " << ult_phrase << endl; 
     for (hero* h : my_team) 

@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <typeinfo>
 #include "whitedoctor.h"
 #include "aminimni.h"
 #include "dannygolang.h"
@@ -120,24 +121,56 @@ void execute_player_turn(vector<hero*>& my_team, vector<hero*>& enemy_team, int 
             continue;
         }
 
+        bool needs_friendly_target = false;
+        string h_name = active_hero->get_name();
+
+        if (action_choice == 2 && (h_name == "doctor white" || h_name == "taha koochike"))
+        {
+            needs_friendly_target = true;
+        }
+
+        int target_idx;
         cout << "\nchoose a target:\n";
 
-        for (size_t i = 0; i < enemy_team.size(); ++i) 
+        if (needs_friendly_target)
         {
-            cout << i + 1 << ". " << enemy_team[i]->get_name();
-
-            if (enemy_team[i]->is_dead()) 
-            { 
-                cout << " [dead]"; 
+            for (size_t i = 0; i < my_team.size(); ++i) 
+            {
+                cout << i + 1 << ". " << my_team[i]->get_name();
+                if (my_team[i]->is_dead()) cout << " [dead]";
+                cout << "\n";
             }
+            cout << "enter teammate number: ";
+            cin >> target_idx;
+            target_idx--;
 
-            cout << "\n";
+            if (target_idx < 0 || target_idx >= my_team.size() || my_team[target_idx]->is_dead())
+            {
+                cout << "invalid teammate choice!\n";
+                continue;
+            }
         }
-        
-        int target_idx;
-        cout << "enter target number: ";
-        cin >> target_idx;
-        target_idx--;
+        else
+        {
+            for (size_t i = 0; i < enemy_team.size(); ++i) 
+            {
+                cout << i + 1 << ". " << enemy_team[i]->get_name();
+                if (enemy_team[i]->is_dead()) 
+                { 
+                    cout << " [dead]"; 
+                }
+                cout << "\n";
+            }
+            cout << "enter enemy number: ";
+            cin >> target_idx;
+            target_idx--;
+
+            if (target_idx < 0 || target_idx >= enemy_team.size())
+            {
+                cout << "invalid enemy choice!\n";
+                continue;
+            }
+        }
 
         cout << "\n<-------------------------------->\n";
         if (action_choice == 1) 
@@ -177,6 +210,21 @@ void execute_player_turn(vector<hero*>& my_team, vector<hero*>& enemy_team, int 
         if (all_dead)
         {
             break;
+        }
+    }
+
+    for (auto h : my_team)
+    {
+        if (!h->is_dead())
+        {
+            h->decrease_shield_turn();
+            h->decrease_buff_turn();
+            h->process_hot();
+
+            if(h->get_name() == "taha bozorge")
+            {
+                dynamic_cast<tahab*>(h)->decrease_hidden_turn();
+            }
         }
     }
 }

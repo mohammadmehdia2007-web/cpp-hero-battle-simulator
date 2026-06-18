@@ -31,15 +31,6 @@ void tahab::use_ability_1(vector<hero*>& my_team, vector<hero*>& enemy_team, int
             cout << h->get_name() << " took 30 damage from spray." << endl;
         }
     }
-
-    if (is_hidden)
-    {
-        hidden_turns--;
-        if (hidden_turns <= 0)
-        {
-            is_hidden = false;
-        }
-    }
 }
 
 void tahab::use_ability_2(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) 
@@ -115,15 +106,6 @@ void tahab::use_ultimate(vector<hero*>& my_team, vector<hero*>& enemy_team, int 
     }
 
     reset_ultimate();
-
-    if (is_hidden)
-    {
-        hidden_turns--;
-        if (hidden_turns <= 0)
-        {
-            is_hidden = false;
-        }
-    }
 }
 
 void tahab::reduce_hp(int damage)
@@ -138,5 +120,18 @@ void tahab::reduce_hp(int damage)
     if (hp < 0) 
     {
         hp = 0; 
+    }
+}
+
+void tahab::decrease_hidden_turn()
+{
+    if (is_hidden)
+    {
+        hidden_turns--;
+        if (hidden_turns <= 0)
+        {
+            is_hidden = false;
+            cout << name << " is no longer hidden!" << endl;
+        }
     }
 }

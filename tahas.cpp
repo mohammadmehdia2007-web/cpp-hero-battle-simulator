@@ -2,10 +2,6 @@
 
 void tahas::use_ability_1(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx)
 {
-    if(hot_target != nullptr)
-    {
-        hot_target->process_hot();
-    }
 
     hero *low_hp_hero = nullptr;
     for(auto h : my_team)
@@ -34,11 +30,6 @@ void tahas::use_ability_1(vector<hero*>& my_team, vector<hero*>& enemy_team, int
 
 void tahas::use_ability_2(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx)
 {
-    if (hot_target != nullptr)
-    {
-        hot_target->process_hot();
-    }
-
     if (target_idx < my_team.size() && !my_team[target_idx]->is_dead())
     {
         cout << name << " used serome khoon on " << hot_target->get_name() << "!!! Continuous healing activated " << endl;
@@ -49,11 +40,6 @@ void tahas::use_ability_2(vector<hero*>& my_team, vector<hero*>& enemy_team, int
 
 void tahas::use_ultimate(vector<hero*>& my_team, vector<hero*>& enemy_team, int target_idx) 
 {
-    if (hot_target != nullptr)
-    { 
-        hot_target->process_hot();
-    }
-
     cout << "!!! ultimate !!! " << ult_phrase << endl;
     
     hero* low_hp_hero = nullptr;
