@@ -364,14 +364,37 @@ int main()
     }
 
     int round = 1;
-    int energy_sequence_1[] ={5, 10}; 
+    int energy_sequence_1[] ={5, 8 , 9 , 10}; 
     int energy_sequence_2[] ={8, 9,10}; 
 
     while(round < 15)
     {
         cout << "\n>!>!>!>!>!>!>!> round " << round << " <!<!<!<!<!<!<!<" << endl; 
         
-        int energy_1 = ((round % 2) == 0) ? energy_sequence_1[1] : energy_sequence_1[0]; 
+        int energy_1 = 10;
+
+        if(round == 1)
+        {
+            energy_1 = energy_sequence_1[0];
+        }
+        else
+        {
+            if(round == 2)
+            {
+                energy_1 = energy_sequence_1[1];
+            }
+            else
+            {
+                if(round == 3)
+                {
+                    energy_1 = energy_sequence_1[2];
+                }
+                else
+                {
+                    energy_1 = energy_sequence_1[3];
+                }
+            }
+        }
 
         cout << "\n--- team 1 turn ---" << endl;
 
