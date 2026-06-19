@@ -363,6 +363,31 @@ int main()
         team_2.push_back(create_hero(choice));
     }
 
+    string team_name_1, team_name_2;
+    cout << "\nEnter Name for Team 1: ";
+    cin >> team_name_1;
+    cout << "\nEnter Name for Team 2: ";
+    cin >> team_name_2;
+
+    string first_team_name = team_name_1;
+    string second_team_name = team_name_2;
+
+if (rand() % 2 == 1)
+    {
+        cout << "\nsystem : " << team_name_2 << " go first!\n";
+        
+        vector<hero*> temp = team_1;
+        team_1 = team_2;
+        team_2 = temp;
+
+        first_team_name = team_name_2;
+        second_team_name = team_name_1;
+    }
+    else
+    {
+        cout << "\nsystem : " << team_name_1 << " go first!\n" << endl;
+    }
+
     int round = 1;
     int energy_sequence_1[] ={5, 8 , 9 , 10}; 
     int energy_sequence_2[] ={8, 9,10}; 
@@ -396,7 +421,7 @@ int main()
             }
         }
 
-        cout << "\n--- team 1 turn ---" << endl;
+        cout << "\n--- " << first_team_name << " turn ---\n"; 
 
         for (auto& h : team_1) 
         {
@@ -428,7 +453,7 @@ int main()
             }
         }
 
-        cout << "\n--- team 2 turn ---" << endl;
+        cout << "\n--- " << second_team_name << " turn ---\n";
 
         for (auto& h : team_2) 
         {
